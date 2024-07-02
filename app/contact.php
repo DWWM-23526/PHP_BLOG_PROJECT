@@ -30,9 +30,9 @@
 </div>
 <?php
     if (isset($_POST['send'])) {
-        $fullname = $_POST['fullname'];
-        $email = $_POST['email'];
-        $message = $_POST['message'];
+        $fullname = filter_var($_POST['fullname'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+        $message = filter_var($_POST['message'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         include_once "./configs/db.config.php";
         $dsn = "mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME;
         $user = DB_USER;
@@ -46,15 +46,23 @@
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
             )
         );
-        $sql = "INSERT INTO contact (fullname, email, message) VALUES ('".$fullname."','".$email."','".$message."');";
-        $stmt = $db->query($sql);
-        $result = $stmt->rowCount() == 1;
+        $sql = "INSERT INTO contact (fullname, email, message) VALUES (?,?,?);";
+        $stmt = $db->prepare($sql);
+        $result = $stmt->execute([$fullname, $email, $message]);
+        $result = $result && $stmt->rowCount() == 1;
         if($result){ ?>
             <div class="alert alert-success alert-dismissible fade show" 
                     role="alert" style="margin-top:80px; margin-bottom:-40px;">
-                Votre message est envoyé.
+                Merci pour votre message <?= $fullname; ?>.<br/> 
+                Vous recevrez une réponse à l'adresse mail indiquée (<?= $email ?>)
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+            <script>
+                if (history.replaceState) {
+                    history.replaceState(null, null, location.href);
+                }
+            </script>
         <?php }
     }
 ?>
+

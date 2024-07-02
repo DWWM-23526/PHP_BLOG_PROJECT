@@ -31,8 +31,10 @@
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
         )
     );
-    $sql = "SELECT * FROM article WHERE id_article = ". $_GET['id'];
-    $stmt = $db->query($sql);
+    $sql = "SELECT * FROM article WHERE id_article = ?;";
+    $stmt = $db->prepare($sql);
+    $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+    $stmt->execute([$id]);
     $article = $stmt->fetch(PDO::FETCH_ASSOC);
     if($article == false){
         $redirect_url = 'index.php'; 
@@ -50,7 +52,7 @@
                     <img src="<?= $article['img_src'] ?>" alt="<?= $article['title'] ?>">
                 </div>
                 <p style="text-align: justify;">
-                <?= $article['summary']?>
+                    <?= $article['summary']?>
                 </p>
                 <p>
                     Publié le <?= date("d/m/Y", strtotime($article['published_at']));?>
@@ -65,8 +67,10 @@
             </div>
         </main>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>  
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    
 </body>
 
 </html>

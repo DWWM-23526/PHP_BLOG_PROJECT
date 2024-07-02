@@ -24,9 +24,11 @@
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
         )
     );
-    $sql = "SELECT * FROM article ORDER BY published_at DESC LIMIT 12";
-    $stmt = $db->query($sql);
+    $sql = "SELECT * FROM article ORDER BY ? DESC LIMIT 12;";
+    $stmt = $db->prepare($sql);
+    $stmt->execute(['published_at']);
     $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
 ?>
 <body>
     <div class="container-lg bg-light">
