@@ -2,6 +2,8 @@
 
 class Router{
 
+    private $controllerInstance;
+
     public function __construct() 
     {
         $route = filter_var(trim($_SERVER["REQUEST_URI"], '/'), FILTER_SANITIZE_URL);
@@ -16,9 +18,13 @@ class Router{
             header('HTTP/1.0 404 Not Found');
             die();
         }
-        include_once $controllerFilePath;
-        $controllerInstance = new $controllerClassName($routeParts);
-        $controllerInstance->{$controllerInstance->actionName}();
+        $this->controllerInstance = new $controllerClassName($routeParts);
+
+    }
+
+    public function start(){
+        $action = $this->controllerInstance->actionName;
+        $this->controllerInstance->{$action}();
     }
 
 }
