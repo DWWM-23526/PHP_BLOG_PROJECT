@@ -1,4 +1,5 @@
 <?php namespace Controllers;
+    use Repositories\ArticleRepository;
 
 class ArticlesController extends BaseController
 {
@@ -9,7 +10,10 @@ class ArticlesController extends BaseController
             header('HTTP/1.0 404 Not Found');
             die();
         }
-        echo "<br/>Executing ".get_called_class()." -> ".__FUNCTION__."() with id=".$id;
+        echo "<br/>Executing ".get_called_class()." -> ".__FUNCTION__."() with id=".$id . "<br/>";
+        $articleRepository = new ArticleRepository();
+        $article = $articleRepository->getOneById($id);
+        var_dump($article);
     }
 }  
 
