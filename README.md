@@ -6,7 +6,9 @@ Branch Step03 : Méthodes GET et POST
 Branch Step04 : Failles XSS et injections SQL  
 Branch Step05 : MVC - un routeur et des contrôleurs   
 Branch Step06 : MVC - héritage et autoload   
-Branch Step07 : MVC - les classes Repository et Entity    
+Branch Step07 : MVC - les classes Repository et Entity   
+Branch Step08 : MVC - les vues (views)   
+
 
 
 
