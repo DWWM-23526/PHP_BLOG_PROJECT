@@ -4,10 +4,8 @@
 class HomeController extends BaseController
 {
     public function index(){
-        // echo "<br/>Executing ".get_called_class()." -> ".__FUNCTION__."()<br/>";
         $articleRepository = new ArticleRepository();
         $articles = $articleRepository->getLastPublishedArticles(12);
-        // var_dump($articles);
         $attributes = [
             'articles' => $articles,
             'pageTitle' => "MyBlog - Accueil",

@@ -8,3 +8,4 @@ Branch Step05 : MVC - un routeur et des contrôleurs
 Branch Step06 : MVC - héritage et autoload 
 Branch Step07 : MVC - les classes Repository et Entity  
 Branch Step08 : MVC - les vues (views)   
+Branch Step09 : MVC - Correction des bugs et refactoring  

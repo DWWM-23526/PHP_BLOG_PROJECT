@@ -1,19 +1,16 @@
 <?php namespace Controllers;
+    use Core\HttpResponse;
     use Repositories\ArticleRepository;
 
 class ArticlesController extends BaseController
 {
 
     public function details(){
-        $id = (int)$this->params[0];
-        if($id < 1) {
-            header('HTTP/1.0 404 Not Found');
-            die();
-        }
-        // echo "<br/>Executing ".get_called_class()." -> ".__FUNCTION__."() with id=".$id . "<br/>";
+        $id = (int)($this->params[0] ?? 0);
+        HttpResponse::SendNotFound($id < 1);
         $articleRepository = new ArticleRepository();
         $article = $articleRepository->getOneById($id);
-        // var_dump($article);
+        HttpResponse::SendNotFound($article == null);
         $attributes = [
             'article' => $article,
             'pageTitle' => "MyBlog - Article : ".$article->title,
@@ -21,5 +18,3 @@ class ArticlesController extends BaseController
         $this->render($attributes);
     }
 }  
-
-?>

@@ -1,4 +1,5 @@
 <?php namespace Controllers;
+      use Core\HttpResponse;
 
 class Router{
 
@@ -14,10 +15,7 @@ class Router{
         }
         $controllerClassName = "Controllers\\".$controllerName."Controller";
         $controllerFilePath = lcfirst($controllerClassName).".php";
-        if(!file_exists($controllerFilePath)){
-            header('HTTP/1.0 404 Not Found');
-            die();
-        }
+        HttpResponse::SendNotFound(!file_exists($controllerFilePath));
         $this->controllerInstance = new $controllerClassName($routeParts);
 
     }

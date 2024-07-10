@@ -1,4 +1,5 @@
 <?php namespace Controllers;
+      use Core\HttpResponse;
 
 class BaseController
 {
@@ -7,10 +8,8 @@ class BaseController
     public function __construct($routeParts)
     {
         $this->actionName = array_shift($routeParts) ?? 'index';
-        if (!method_exists(get_called_class(), $this->actionName)) {
-            header('HTTP/1.0 404 Not Found');
-            die();
-        }  
+        $actionNotExists = !method_exists(get_called_class(), $this->actionName);
+        HttpResponse::SendNotFound($actionNotExists);  
         $this->params = $routeParts; 
     }
 
@@ -21,7 +20,10 @@ class BaseController
             $controllerName = lcfirst(str_replace("s\\", "", $controllerName));
             $viewPath = "views/pages/$controllerName.$this->actionName.php";
         }
+        ob_start();
         require_once $viewPath;
+        $content = ob_get_clean();
+        HttpResponse::SendOK($content);
     }
 
 }

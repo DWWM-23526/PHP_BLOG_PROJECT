@@ -8,7 +8,6 @@ class BaseRepository
     private function connect(){
         if (self::$connection == null) {
             include_once "./configs/db.config.php";
-            //Connexion à la DB
             $dsn = "mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME;
             $user = DB_USER;
             $pass = DB_PASSWORD;
@@ -34,6 +33,36 @@ class BaseRepository
         $statement = $this->connect()->prepare($sql);
         $result = $statement->execute($params);
         return (object)['result' => $result, 'statement' => $statement];
+    }
+
+    private function getBaseClassName(){
+        $baseClassName = str_replace("Repositories\\", "", get_called_class());
+        return str_replace("Repository", "", $baseClassName);
+    }
+    private function getTableName(){
+        return lcfirst($this->getBaseClassName());
+    }
+
+    private function getEntityClassName(){
+        return "Entities\\" . $this->getBaseClassName();
+    }
+
+    public function getAll(){
+        $queryResponse = $this->preparedQuery("SELECT * FROM ".$this->getTableName());
+        $entities = $queryResponse->statement->fetchAll(PDO::FETCH_CLASS, $this->getEntityClassName());
+        return $entities;
+    }
+
+    public function getOneById($id){
+        $tableName = $this->getTableName();
+        $entityClassName = $this->getEntityClassName();
+        $queryResponse = $this->preparedQuery("SELECT * FROM $tableName WHERE id_$tableName = ?", [$id]);
+        $assocArray = $queryResponse->statement->fetch(PDO::FETCH_ASSOC);
+        if(!$assocArray){
+            return null;
+        } 
+        $entity = new $entityClassName($assocArray);
+        return $entity;
     }
 }
 
