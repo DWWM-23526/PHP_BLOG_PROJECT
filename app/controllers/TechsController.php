@@ -8,6 +8,11 @@ class TechsController extends BaseController
     public function index(){
         $techRepository = new TechRepository();
         $techs = $techRepository->getAll();
+        $attributes = [
+            'techs' => $techs,
+            'pageTitle' => "MyBlog - Les techs",
+        ];
+        $this->render($attributes);
     }
 
     public function articles(){
@@ -15,8 +20,13 @@ class TechsController extends BaseController
         HttpResponse::SendNotFound($id < 1);
         $techRepository = new TechRepository();
         $tech = $techRepository->getOneById($id);
+        $articles = $techRepository->getArticles($id);
         HttpResponse::SendNotFound($tech == null);
+        $attributes = [
+            'tech' => $tech,
+            'articles' => $articles,
+            'pageTitle' => "MyBlog - Tech : ". $tech->label,
+        ];
+        $this->render($attributes);
     }
 }  
-
-?>

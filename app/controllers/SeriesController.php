@@ -8,6 +8,11 @@ class SeriesController extends BaseController
     public function index(){
         $serieRepository = new SerieRepository();
         $series = $serieRepository->getAll();
+        $attributes = [
+            'series' => $series,
+            'pageTitle' => "MyBlog - Les séries",
+        ];
+        $this->render($attributes);
     }
 
     public function articles(){
@@ -15,8 +20,13 @@ class SeriesController extends BaseController
         HttpResponse::SendNotFound($id < 1);
         $serieRepository = new SerieRepository();
         $serie = $serieRepository->getOneById($id);
+        $articles = $serieRepository->getArticles($id);
         HttpResponse::SendNotFound($serie == null);
+        $attributes = [
+            'serie' => $serie,
+            'articles' => $articles,
+            'pageTitle' => "MyBlog - Série : ". $serie->title,
+        ];
+        $this->render($attributes);
     }
 }  
-
-?>
