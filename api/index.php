@@ -1,5 +1,6 @@
 <?php
-use Core\HttpResponse;
+use Core\HttpReqAttr;
+use Core\HttpRequest;
 function autoload($className) {
     $classFilePath = "$className.php";
     if (file_exists($classFilePath)) {
@@ -8,5 +9,11 @@ function autoload($className) {
 }
 spl_autoload_register("autoload");
 
-HttpResponse::SendOK("ok");
+$instance1 = HttpRequest::get();
+$instance2 = HttpRequest::get(HttpReqAttr::INSTANCE);
+$method = HttpRequest::get(HttpReqAttr::METHOD);
+$route = HttpRequest::get(HttpReqAttr::ROUTE);
+$params = HttpRequest::get(HttpReqAttr::PARAMS);
+$body = HttpRequest::get(HttpReqAttr::BODY);
+$bp = true;
 
