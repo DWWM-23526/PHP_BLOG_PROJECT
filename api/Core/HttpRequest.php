@@ -25,7 +25,7 @@ class HttpRequest
         }
         return self::$instance->{$option->value};
     }
-    
+
 }
 
 enum HttpReqAttr: string

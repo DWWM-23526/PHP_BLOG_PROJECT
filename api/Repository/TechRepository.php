@@ -1,4 +1,4 @@
-<?php namespace Repositories;
+<?php namespace Repository;
     use PDO;
 class TechRepository extends BaseRepository
 {

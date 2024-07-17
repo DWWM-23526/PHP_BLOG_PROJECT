@@ -1,4 +1,4 @@
-<?php namespace Entities;
+<?php namespace Entity;
 
 class Serie extends BaseEntity
 {

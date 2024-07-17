@@ -17,6 +17,6 @@ class Router{
     }
     public function start() : void
     {
-        $this->controllerInstance->execute();
+        HttpResponse::SendOK($this->controllerInstance->execute());
     }
 }

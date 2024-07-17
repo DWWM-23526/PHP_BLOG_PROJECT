@@ -1,4 +1,4 @@
-<?php namespace Repositories;
+<?php namespace Repository;
     use PDO;
     use PDOException;
 
@@ -36,15 +36,15 @@ class BaseRepository
     }
 
     private function getBaseClassName(){
-        $baseClassName = str_replace("Repositories\\", "", get_called_class());
-        return str_replace("Repository", "", $baseClassName);
+        $baseClassName = str_replace("Repository", "", get_called_class());
+        return str_replace("\\", "", $baseClassName);
     }
     private function getTableName(){
         return lcfirst($this->getBaseClassName());
     }
 
     private function getEntityClassName(){
-        return "Entities\\" . $this->getBaseClassName();
+        return "Entity\\" . $this->getBaseClassName();
     }
 
     public function getAll(){
@@ -63,6 +63,10 @@ class BaseRepository
         } 
         $entity = new $entityClassName($assocArray);
         return $entity;
+    }
+
+    public function insert(){
+        
     }
 }
 
