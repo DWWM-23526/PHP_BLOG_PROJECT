@@ -1,5 +1,8 @@
 <?php namespace Repository;
+    use Entity\Article;
     use PDO;
+    use Core\HttpReqAttr;
+    use Core\HttpRequest;
 
 class ArticleRepository extends BaseRepository
 {
@@ -9,4 +12,23 @@ class ArticleRepository extends BaseRepository
         $articles = $queryResponse->statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,"Entities\Article");
         return $articles;
     }
+
+    // public function insert() : Article | bool
+    // {
+    //     $requestBody = HttpRequest::get(HttpReqAttr::BODY);
+    //     $article = new Article($requestBody);
+    //     $article->id_article = null;
+    //     $entityArray = get_object_vars($article);
+    //     $columns = implode(",", array_keys($entityArray));
+    //     $values = implode(",", array_map(function (){ return "?"; }, $entityArray));
+    //     $params = array_values($entityArray);
+    //     $sql = "INSERT INTO article ($columns) VALUES ($values)";
+    //     $queryResponse = $this->preparedQuery($sql, $params);
+    //     if($queryResponse->result && $queryResponse->statement->rowCount() == 1){
+    //         $lastInsertId = self::$connection->lastInsertId();
+    //         $article = $this->getOneById($lastInsertId);
+    //         return $article;
+    //     }
+    //     return false;
+    // }
 }

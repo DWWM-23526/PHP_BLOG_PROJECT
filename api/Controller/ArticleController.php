@@ -16,7 +16,9 @@ class ArticleController extends BaseController
     }
     public function post() : array
     {
-        return ["result" => "Create an Article"];
+        $articleRepository = new ArticleRepository();
+        $insertedArticle = $articleRepository->insert();
+        return ["result" => $insertedArticle];
     }
     public function put() : array
     {

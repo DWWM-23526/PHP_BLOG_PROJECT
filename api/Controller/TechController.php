@@ -1,18 +1,24 @@
 <?php namespace Controller;
     use Core\HttpResponse;
+    use Entity\Tech;
+    use Repository\TechRepository;
 class TechController extends BaseController
 {
-    public function get() : array
+    public function get() : array | Tech | null
     {
-        if($this->id == 0){
-            return ["result" => "Read all Techs"];
+        $techRepository = new TechRepository();
+        if($this->id <= 0){
+            $techs = $techRepository->getAll();
+            return $techs;
         }
-        return ["result" => "Read Tech with id = " . $this->id];
-        
+        $tech = $techRepository->getOneById($this->id);
+        return $tech;
     }
     public function post() : array
     {
-        return ["result" => "Create an Tech"];
+        $techRepository = new TechRepository();
+        $insertedTech = $techRepository->insert();
+        return ["result" => $insertedTech];
     }
     public function put() : array
     {

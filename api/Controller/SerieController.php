@@ -1,18 +1,24 @@
 <?php namespace Controller;
     use Core\HttpResponse;
+    use Entity\Serie;
+    use Repository\SerieRepository;
 class SerieController extends BaseController
 {
-    public function get() : array
+    public function get() : array | Serie | null
     {
-        if($this->id == 0){
-            return ["result" => "Read all Series"];
+        $serieRepository = new SerieRepository();
+        if($this->id <= 0){
+            $series = $serieRepository->getAll();
+            return $series;
         }
-        return ["result" => "Read Serie with id = " . $this->id];
-        
+        $serie = $serieRepository->getOneById($this->id);
+        return $serie;
     }
     public function post() : array
     {
-        return ["result" => "Create an Serie"];
+        $serieRepository = new SerieRepository();
+        $insertedSerie = $serieRepository->insert();
+        return ["result" => $insertedSerie];
     }
     public function put() : array
     {
