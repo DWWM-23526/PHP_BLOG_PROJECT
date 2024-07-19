@@ -1,5 +1,6 @@
 <?php namespace Controller;
     use Core\HttpResponse;
+    use Entity\BaseEntity;
 class BaseController
 {
     private string $method;
@@ -16,4 +17,50 @@ class BaseController
         $result = $this->{$this->method}();
         return json_encode($result);
     }
+
+    private function getBaseClassName() : string
+    {
+        $baseClassName = str_replace("Controller", "", get_called_class());
+        return str_replace("\\", "", $baseClassName);
+    }
+
+    private function getRepositoryClassName() : string
+    {
+        return "Repository\\" . $this->getBaseClassName() . "Repository";
+    }
+
+    protected function get() : array | BaseEntity | null
+    {
+        $repositoryClassName = $this->getRepositoryClassName();
+        $repository = new $repositoryClassName();
+        if($this->id <= 0){
+            $entities = $repository->getAll();
+            return $entities;
+        }
+        $entity = $repository->getOneById($this->id);
+        return $entity;
+    }
+
+    protected function post() : array
+    {
+        $repositoryClassName = $this->getRepositoryClassName();
+        $repository = new $repositoryClassName();
+        $insertedEntity = $repository->insert();
+        return ["result" => $insertedEntity];
+    }
+
+    protected function put() : array
+    {
+        $repositoryClassName = $this->getRepositoryClassName();
+        $repository = new $repositoryClassName();
+        $updatedEntity = $repository->update($this->id);
+        return ["result" => $updatedEntity];
+    }
+
+    protected function delete() : array
+    {
+        //TODO
+    }
+
+
 }
