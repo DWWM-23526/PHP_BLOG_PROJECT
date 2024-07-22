@@ -26,9 +26,9 @@ class SerieController extends BaseController
     //     HttpResponse::SendNotFound($this->id <= 0);
     //     return ["result" => "Update Serie with id = " . $this->id];
     // }
-    public function delete() : array
-    {
-        HttpResponse::SendNotFound($this->id <= 0);
-        return ["result" => "Delete Serie with id = " . $this->id];
-    }
+    // public function delete() : array
+    // {
+    //     HttpResponse::SendNotFound($this->id <= 0);
+    //     return ["result" => "Delete Serie with id = " . $this->id];
+    // }
 }

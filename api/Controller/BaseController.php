@@ -59,7 +59,10 @@ class BaseController
 
     protected function delete() : array
     {
-        //TODO
+        $repositoryClassName = $this->getRepositoryClassName();
+        $repository = new $repositoryClassName();
+        $deleteResult = $repository->delete($this->id);
+        return ["result" => $deleteResult];
     }
 
 

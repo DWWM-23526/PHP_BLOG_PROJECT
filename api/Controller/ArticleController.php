@@ -26,9 +26,9 @@ class ArticleController extends BaseController
     //     HttpResponse::SendNotFound($this->id <= 0);
     //     return ["result" => "Update Article with id = " . $this->id];
     // }
-    public function delete() : array
-    {
-        HttpResponse::SendNotFound($this->id <= 0);
-        return ["result" => "Delete Article with id = " . $this->id];
-    }
+    // public function delete() : array
+    // {
+    //     HttpResponse::SendNotFound($this->id <= 0);
+    //     return ["result" => "Delete Article with id = " . $this->id];
+    // }
 }

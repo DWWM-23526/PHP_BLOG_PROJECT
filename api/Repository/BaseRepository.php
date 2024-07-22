@@ -117,9 +117,17 @@ class BaseRepository
         return false;
     }
 
-    public function delete(int $id) : BaseEntity | false
+    public function delete(int $id) : bool
     {
-        //TODO
+        $tableName = $this->getTableName();
+        $where = "id_$tableName = ?";
+        $sql = "DELETE FROM $tableName WHERE $where";
+        $resp = $this->preparedQuery($sql, [$id]);
+        if($resp->result && $resp->statement->rowCount() <= 1){
+            $entity = $this->getOneById($id);
+            return !isset($entity);
+        }
+        return false;
     }
 }
 
