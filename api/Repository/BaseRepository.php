@@ -55,9 +55,19 @@ class BaseRepository
         return "Entity\\" . $this->getBaseClassName();
     }
 
-    public function getAll() : array
+    public function getAll(array $params) : array
     {
-        $queryResponse = $this->preparedQuery("SELECT * FROM ".$this->getTableName());
+        $sql = "SELECT * FROM ".$this->getTableName();
+        if(isset($params['orderby'])){
+            $sql .= " ORDER BY ".$params['orderby'];
+            if(isset($params['sort'])){
+                $sql .= " " . $params['sort'];
+            }
+        }
+        if(isset($params['limit'])){
+            $sql .= " LIMIT " . $params['limit'];
+        }
+        $queryResponse = $this->preparedQuery($sql);
         $entities = $queryResponse->statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->getEntityClassName());
         return $entities;
     }

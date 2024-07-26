@@ -1,4 +1,6 @@
 <?php namespace Controller;
+    use Core\HttpReqAttr;
+    use Core\HttpRequest;
     use Core\HttpResponse;
     use Entity\BaseEntity;
 class BaseController
@@ -34,7 +36,8 @@ class BaseController
         $repositoryClassName = $this->getRepositoryClassName();
         $repository = new $repositoryClassName();
         if($this->id <= 0){
-            $entities = $repository->getAll();
+            $params = HttpRequest::get(HttpReqAttr::PARAMS);
+            $entities = $repository->getAll($params);
             return $entities;
         }
         $entity = $repository->getOneById($this->id);
