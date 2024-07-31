@@ -59,7 +59,7 @@ class BaseRepository
     {
         $sql = "SELECT * FROM ".$this->getTableName();
         if(isset($params['orderby'])){
-            $sql .= " ORDER BY ".$params['orderby'];
+            $sql .= " ORDER BY " . $params['orderby'];
             if(isset($params['sort'])){
                 $sql .= " " . $params['sort'];
             }
