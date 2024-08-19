@@ -58,6 +58,9 @@ class BaseRepository
     public function getAll(array $params) : array
     {
         $sql = "SELECT * FROM ".$this->getTableName();
+        if(isset($params['where'])){
+            $sql .= " WHERE " . $params['where'];
+        }
         if(isset($params['orderby'])){
             $sql .= " ORDER BY ".$params['orderby'];
             if(isset($params['sort'])){

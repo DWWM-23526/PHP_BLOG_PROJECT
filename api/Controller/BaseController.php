@@ -40,7 +40,15 @@ class BaseController
             $entities = $repository->getAll($params);
             return $entities;
         }
+        
         $entity = $repository->getOneById($this->id);
+        $additionalEntities = array_slice(HttpRequest::get(HttpReqAttr::ROUTE), 2);
+        foreach ($additionalEntities as $method){
+            $test  = method_exists($repositoryClassName, $method);
+            if($test){
+                $entity->{$method} = $repository->{$method}($this->id);
+            }
+        }
         return $entity;
     }
 
